@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+encoding//src/dao/commentDAO.java=UTF-8
+encoding//src/daoImpl/commentDAOImpl.java=UTF-8
+encoding//src/entity/comment.java=UTF-8
+encoding//src/test/UserDAOImplTest.java=UTF-8
