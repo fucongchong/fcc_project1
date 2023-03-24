@@ -1,0 +1,12 @@
+WINDOWS 10
+JDK 1.8
+Android Studio 2.4 Preview 7
+虚拟设备Nexus(2012) API 30  Resolution:800*1280:tvdpi   CPU/ABI：x86
+
+相关配置文件
+com.android.tools.build:gradle:1.2.3
+distributionUrl=https\://services.gradle.org/distributions/gradle-2.4-all.zip
+compileSdkVersion 25
+buildToolsVersion "25.0.2"
+minSdkVersion 15
+targetSdkVersion 25

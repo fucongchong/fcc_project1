@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/wallet_base_info_hover" android:state_pressed="true"/>
+    <item android:drawable="@drawable/wallet_base_info"/>
+
+</selector><!-- From: file:/D:/workspace/CN5E-shop-master/CN5E-shop-master/lib/bdwallet_pay_sdk/res/drawable/wallet_base_info_btn_selector.xml --><!-- From: file:/D:/workspace/CN5E-shop-master/CN5E-shop-master/lib/bdwallet_pay_sdk/build/intermediates/bundles/debug/res/drawable/wallet_base_info_btn_selector.xml -->

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.StatisticsDao">
+  	<select id="findList" parameterType="Map" resultType="AlarmInfo">
+  		select *
+        from alarminfo
+        where astatus=#{astatus}        
+        limit #{offset},#{pageSize}
+  	</select>
+  	 
+  	<select id="getStuTopicBySNO" parameterType="String" resultType="com.pojo.StuTopicPojo">
+  		select t.TopicID,t.TopicName,t.keyWord,th.TN
+        from topic t,stutopic st,teacher th
+        where t.TopicID=st.TopicID and st.SNo=#{SNo} and th.TID=t.TID
+  	</select>
+  	
+  	<select id="stuTopicNumber" parameterType="String" resultType="Integer">
+  	select count(SNo)
+    from stutopic
+    where SNo=#{SNo}
+  	</select>
+  	
+  	<select id="getTopicPaperNum" parameterType="String" resultType="String">
+  	select DISTINCT t.TopicID,t.TopicName
+    from topic t,stutopic stut
+    where t.TopicID=stut.TopicID and stut.SNo=#{SNo}
+  	</select>
+  	
+  	<select id="getDetailedPaperInfo" parameterType="String" resultType="com.pojo.PaperPojo">
+  	select p.PID,p.PN,p.author,p.provenance,p.keyword,p.digest,p.filePhysicalLocation,p.uploadTime
+    from paper p,topic t1,stutopic stup,topicpaper tpp
+    where stup.TopicID=#{arg0} and stup.SNo=#{arg1} and t1.TopicID=stup.TopicID and tpp.StuTopicID=stup.StuTopicID and tpp.PID=p.PID
+    and p.SNo=stup.SNo
+  	</select>
+ 
+ 
+ 
+  	
+  	<update id="addLogInfo" parameterType="Loginfo">
+  		insert into loginfo(lid,llevel,ldate,lcontent) values(null,#{llevel},#{ldate},#{lcontent})
+  	</update>
+  
+  
+  
+  	
+  	<update id="updateSC" parameterType="String">
+  		insert into sc(SCID,CID,SNo,grade) values(null,#{arg0},#{arg1},null)
+  	</update>
+  	
+  	<update id="edit" parameterType="Student">
+  		update student set SN = #{SN},gender = #{gender},Dept=#{Dept},Clas=#{Clas} where SNo = #{SNo}
+  	</update>
+  	
+  	<update id="delete" parameterType="String">
+  		delete from student where SNo=#{SNo}
+  	</update>
+  	
+  	<update id="deleteSC" parameterType="String">
+  		delete from sc where SNo=#{SNo}
+  	</update>
+  	
+  	<select id="GetSNbyUID" parameterType="String" resultType="Student">
+  	select *
+    from student
+    where SNo=#{SNo}
+  	</select>
+  	
+  	<select id="getCountFire" parameterType="String" resultType="Integer">
+  		select count(aid) from alarminfo where astatus=#{astatus}
+  	</select>
+  	
+  	<select id="getStatusRight" parameterType="String" resultType="Integer">
+  		select count(aid) from alarminfo where astatus=#{astatus}
+  	</select>
+  	
+  	<select id="getStatusWrong" parameterType="String" resultType="Integer">
+  		select count(aid) from alarminfo where astatus=#{astatus}
+  	</select>
+  	
+  	<select id="getStatusNull" parameterType="String" resultType="Integer">
+  		select count(aid) from alarminfo where astatus=#{astatus}
+  	</select>
+  	
+  	
+  	
+  	<select id="getAllAlarmMovie" parameterType="Map" resultType="com.pojo.AffirmAlarmPojo">
+  		select a.aid,m.mid,m.mpaddress
+        from movieinfo m,alarminfo a,alarm_movie am
+        where m.mid=am.mid and am.aid=a.aid and a.astatus=#{astatus}
+  	</select>
+  	
+  	<select id="getPIDArray" parameterType="Integer" resultType="String">
+  		select p.paddress
+        from movieinfo m,pictureinfo p,movie_picture mp
+        where m.mid=#{mid} and m.mid=mp.mid and mp.pid=p.pid
+  	</select>
+  	
+  	<update id="updateAlarmByAid" parameterType="com.pojo.updateAlarmPojo">
+  		update alarminfo set astatus = #{astatus},aeid = #{aeid},aemessage=#{aemessage} where aid = #{aid}
+  	</update>
+  	
+  	<select id="getAllTime" resultType="com.po.StastisticsPo">
+  	select adate
+    from alarminfo
+  	</select>
+  	
+  	
+</mapper>

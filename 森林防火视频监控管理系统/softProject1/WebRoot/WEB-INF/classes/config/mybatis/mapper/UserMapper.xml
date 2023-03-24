@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.UserDao">
+  	<select id="findByUserName" parameterType="String" resultType="User">
+  		select * from user where username = #{username}
+  	</select>
+  	
+  	<select id="findByUID" parameterType="Integer" resultType="User">
+  		select u.*,ud.utype
+        from user u,userdetail ud
+        where u.uid=ud.uid and u.uid=#{uid}
+  	</select>
+  	
+  	<select id="getAllwaitUser" resultType="com.po.WaitUser">
+  		select * from waituser
+  	</select>
+  	
+  	<select id="getAllUserdetail" resultType="UserDetail">
+  		select * from userdetail
+  	</select>
+  	
+  	<select id="UserDetailByUID" parameterType="Integer" resultType="UserDetail">
+  		select * from userdetail where uid=#{uid}
+  	</select>
+  	
+  	
+  	<select id="getWaitByUID" parameterType="Integer" resultType="com.po.WaitUser">
+  		select * from waituser where uid=#{uid}
+  	</select>
+  	
+  	<update id="insertUser" parameterType="com.po.WaitUser">
+  		insert into user(uid,pwd) values(#{uid},#{upwd})
+  	</update>
+  	
+  	<update id="insertUserdetail" parameterType="com.po.WaitUser">
+  		insert into userdetail(uid,uname,uemail,uphone,udept,udate,utype) values(#{uid},#{uname},#{uemail},#{uphone},#{udept},#{udate},#{utype})
+  	</update>
+  	
+  	<update id="deleteWaitUser" parameterType="Integer">
+  		delete from waituser where uid=#{uid}
+  	</update>
+  	
+  	<update id="deleteUser" parameterType="Integer">
+  		delete from user where uid=#{uid}
+  	</update>
+  	
+  	<update id="deleteUserdetail" parameterType="Integer">
+  		delete from userdetail where uid=#{uid}
+  	</update>
+  	
+  	
+  	<select id="findList" parameterType="Map" resultType="User">
+  		select * from user where username like #{username} limit #{offset},#{pageSize}
+  	</select>
+  	<select id="getTotal" parameterType="Map" resultType="Integer">
+  		select count(id) from user where username like #{username}
+  	</select>
+  	<update id="add" parameterType="User">
+  		insert into user(id,username,password) values(null,#{username},#{password})
+  	</update>
+  	<update id="edit" parameterType="User">
+  		update user set username = #{username},password = #{password} where id = #{id}
+  	</update>
+  	<update id="delete" parameterType="String">
+  		delete from user where id in (${value})
+  	</update>
+  	
+  	<update id="editUser" parameterType="UserDetail">
+  		update userdetail set uname = #{uname},uemail = #{uemail},uphone=#{uphone},udept=#{udept},udate=#{udate},utype=#{utype} where uid = #{uid}
+  	</update>
+  	
+  	<update id="RegisterWorker" parameterType="com.po.WaitUser">
+  		insert into waituser(uid,uname,upwd,uemail,uphone,udept,udate,utype) values(#{uid},#{uname},#{upwd},#{uemail},#{uphone},#{udept},#{udate},#{utype})
+  	</update>
+  	
+  	
+  	
+</mapper>

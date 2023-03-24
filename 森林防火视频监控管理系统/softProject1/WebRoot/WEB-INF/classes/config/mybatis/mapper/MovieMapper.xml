@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.MovieDao">
+  	<select id="getAllMovieList" parameterType="Map" resultType="Movie">
+  		select *
+        from movieinfo        
+        limit #{offset},#{pageSize}
+  	</select>
+  	 
+  	<select id="getAllMovie" resultType="Movie">
+  		select *
+        from movieinfo     
+  	</select>
+  	
+  	<select id="stuTopicNumber" parameterType="String" resultType="Integer">
+  	select count(SNo)
+    from stutopic
+    where SNo=#{SNo}
+  	</select>
+  	
+  	<select id="getTopicPaperNum" parameterType="String" resultType="String">
+  	select DISTINCT t.TopicID,t.TopicName
+    from topic t,stutopic stut
+    where t.TopicID=stut.TopicID and stut.SNo=#{SNo}
+  	</select>
+  	
+  	<select id="getDetailedPaperInfo" parameterType="String" resultType="com.pojo.PaperPojo">
+  	select p.PID,p.PN,p.author,p.provenance,p.keyword,p.digest,p.filePhysicalLocation,p.uploadTime
+    from paper p,topic t1,stutopic stup,topicpaper tpp
+    where stup.TopicID=#{arg0} and stup.SNo=#{arg1} and t1.TopicID=stup.TopicID and tpp.StuTopicID=stup.StuTopicID and tpp.PID=p.PID
+    and p.SNo=stup.SNo
+  	</select>
+  	
+  	<update id="add" parameterType="AlarmInfo">
+  		insert into alarminfo(aid,adate,ax,ay,astatus,apoid,aangle,auid,aeid,aemessage) values(#{aid},#{adate},#{ax},#{ay},#{astatus},#{apoid},#{aangle},#{auid},#{aeid},#{aemessage})
+  	</update>
+  	
+  	<update id="updateSC" parameterType="String">
+  		insert into sc(SCID,CID,SNo,grade) values(null,#{arg0},#{arg1},null)
+  	</update>
+  	
+  	<update id="edit" parameterType="Student">
+  		update student set SN = #{SN},gender = #{gender},Dept=#{Dept},Clas=#{Clas} where SNo = #{SNo}
+  	</update>
+  	
+  	<update id="delete" parameterType="Integer">
+  		delete from movieinfo where mid=#{mid}
+  	</update>
+  	
+  	<update id="deleteSC" parameterType="String">
+  		delete from sc where SNo=#{SNo}
+  	</update>
+  	
+  	<select id="GetSNbyUID" parameterType="String" resultType="Student">
+  	select *
+    from student
+    where SNo=#{SNo}
+  	</select>
+  	
+  	<select id="getTotal" parameterType="Map" resultType="Integer">
+  		select count(aid) from alarminfo
+  	</select>
+  	
+  	<select id="getAllAlarmMovie" parameterType="Map" resultType="com.pojo.AffirmAlarmPojo">
+  		select a.aid,m.mid,m.mpaddress
+        from movieinfo m,alarminfo a,alarm_movie am
+        where m.mid=am.mid and am.aid=a.aid and a.astatus=#{astatus}
+  	</select>
+  	
+  	<select id="getPIDArray" parameterType="Integer" resultType="String">
+  		select p.paddress
+        from movieinfo m,pictureinfo p,movie_picture mp
+        where m.mid=#{mid} and m.mid=mp.mid and mp.pid=p.pid
+  	</select>
+  	
+  	<update id="updateAlarmByAid" parameterType="com.pojo.updateAlarmPojo">
+  		update alarminfo set astatus = #{astatus},aeid = #{aeid},aemessage=#{aemessage} where aid = #{aid}
+  	</update>
+  	
+  	<select id="getMovByPoname" parameterType="String" resultType="Movie">
+  		select m.*
+        from movieinfo m,positioninfo po
+        where m.mlocation=po.poid and po.poname=#{poname}
+  	</select>
+  	
+  	<select id="getMovByPoid" parameterType="Integer" resultType="Movie">
+  		select *
+        from movieinfo
+        where mlocation=#{poid}
+  	</select>
+  	
+  	<select id="getMovByMdate" parameterType="String" resultType="Movie">
+  		select *
+        from movieinfo
+        where mdate like CONCAT('%',#{mdate},'%') 
+  	</select>
+  	
+  	<select id="getMovByPonameID" resultType="Movie">
+  		select m.*
+        from movieinfo m,positioninfo po
+        where m.mlocation=po.poid and po.poname=#{arg0} and po.poid=#{arg1}
+  	</select>
+  	
+  	<select id="getMovByPonameDate" resultType="Movie">
+  		select m.*
+        from movieinfo m,positioninfo po
+        where m.mlocation=po.poid and po.poname=#{arg0} and m.mdate=#{arg1}
+  	</select>
+  	
+  	<select id="getMovByMdateID" resultType="Movie">
+  		select *
+        from movieinfo
+        where  mlocation=#{arg1} and mdate=#{arg0}
+  	</select>
+  	
+  	<select id="getMovByThree" resultType="Movie">
+  		select m.*
+        from movieinfo m,positioninfo po
+        where m.mlocation=po.poid and po.poname=#{arg0} and m.mlocation=#{arg1} and m.mdate=#{arg2}
+  	</select>
+  	
+  	
+  	
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.TopicDao">
+  	<select id="getTopicByCID" parameterType="Map" resultType="Topic">
+  		select t.TopicID,t.TopicName,t.keyWord,tc.TN,t.createTime,t.peopleNumber
+        from topic t,teacher tc
+        where t.CID=#{CID} and t.TID=tc.TID        
+        limit #{offset},#{pageSize}
+  	</select>
+  	
+  	<select id="ChoosedTopic" parameterType="Map" resultType="Topic">
+  		select t.TopicID,t.TopicName,t.keyWord,tc.TN,t.createTime,t.peopleNumber
+        from topic t,teacher tc,stutopic stut
+        where t.CID=#{CID} and t.TID=tc.TID and stut.SNo=#{SNo} and stut.TopicID=t.TopicID        
+        limit #{offset},#{pageSize}
+  	</select>
+  	
+  	
+  	<select id="getStudentByTopicID" parameterType="String" resultType="Student">
+  		select s.*
+        from stutopic sp,student s
+        where s.SNo=sp.SNo and sp.TopicID=#{TopicID}
+  	</select>
+  	
+  	<select id="getTIDByTN" parameterType="String" resultType="String">
+  	    select TID
+  	    from teacher
+  	    where TN=#{TN}
+  	</select>
+  	
+  	<update id="add" parameterType="com.po.TopicPo">
+  		insert into topic(TopicID,CID,TID,TopicName,keyWord,createTime,peopleNumber) values(#{TopicID},#{CID},#{TID},#{TopicName},#{keyWord},#{createTime},#{peopleNumber})
+  	</update>
+  	
+  	<update id="addPaper" parameterType="com.pojo.UploadPaperPojo">
+  		insert into paper(PID,PN,author,provenance,keyword,digest,filePhysicalLocation,SNo,uploadTime) values(#{PID},#{PN},#{author},#{provenance},#{keyword},#{digest},#{filePhysicalLocation},#{SNo},#{uploadTime})
+  	</update>
+  	
+  	<select id="getStuTopicID" parameterType="String" resultType="String">
+  		select StuTopicID
+        from stutopic
+        where SNo=#{arg0} and TopicID=#{arg1}
+  	</select>
+  	
+  	<update id="addTopicPaper" parameterType="Map">
+  		insert into topicpaper(TopicPaperID,StuTopicID,PID,degOfCorrelation) values(null,#{StuTopicID},#{PID},#{degOfCorrelation})
+  	</update>
+  	
+  	<update id="insertStuTopic" parameterType="com.po.StuTopic">
+  		insert into stutopic(StuTopicID,SNo,TopicID,chooseTime,uploadStatus) values(null,#{SNo},#{TopicID},#{chooseTime},null)
+  	</update>
+  	
+</mapper>

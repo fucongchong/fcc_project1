@@ -1,0 +1,16 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/lv_pay_channel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#d3d3d3"
+        android:dividerHeight="1dp"
+        android:scrollbars="none"
+        android:background="#ffffffff"></ListView>
+
+</LinearLayout>
+<!-- From: file:/D:/workspace/CN5E-shop-master/CN5E-shop-master/lib/pingpp_one/res/layout/fragment_pay_way_dialog.xml --><!-- From: file:/D:/workspace/CN5E-shop-master/CN5E-shop-master/lib/pingpp_one/build/intermediates/bundles/debug/res/layout/fragment_pay_way_dialog.xml -->
